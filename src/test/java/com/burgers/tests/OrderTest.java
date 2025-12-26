@@ -11,6 +11,7 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -85,5 +86,23 @@ public class OrderTest extends BaseTest {
                 response.then().statusCode(SC_BAD_REQUEST)
                         .body("success", equalTo(false))
                         .body("message", equalTo("Ingredient ids must be provided"));
+    }
+
+    @Test
+    @DisplayName("Создание заказа с неверным хешем")
+    public void orderWithInvalidIngredientsHashFail(){
+        testUser = new User("testUser_" + System.currentTimeMillis() + "@example.com", "password123", "Ivan");
+
+        ApiUser.createUser(testUser);
+        Login login = new Login(testUser.getEmail(), testUser.getPassword());
+
+        Response loginResponse = AuthorizationApi.login(login);
+        token = takingAccessToken(loginResponse);
+
+        Order order = new Order(Arrays.asList("invalid_hash_1", "invalid_hash_2"));
+        Response response = OrderApi.createOrderWithAuth(order, token);
+
+        response.then()
+                .statusCode(greaterThanOrEqualTo(SC_INTERNAL_SERVER_ERROR));
     }
 }
