@@ -1,10 +1,8 @@
 package com.burgers.tests;
 import com.burgers.BaseTest;
-import com.burgers.API.AuthorizationApi;
-import com.burgers.API.ApiUser;
-import com.burgers.API.OrderApi;
+import com.burgers.api.AuthorizationApi;
+import com.burgers.api.OrderApi;
 import com.burgers.model.Login;
-import com.burgers.model.User;
 import com.burgers.model.Order;
 
 import io.qameta.allure.junit4.DisplayName;
@@ -32,11 +30,6 @@ public class OrderTest extends BaseTest {
     @Test
     @DisplayName("Заказ с авторизацией и ингредиентами")
     public void orderWithAuthAndIngredientsSuccess(){
-
-        testUser = new User("testUser_" + System.currentTimeMillis() + "@example.com", "password123", "Ivan");
-
-        ApiUser.createUser(testUser);
-
         Login login = new Login(testUser.getEmail(), testUser.getPassword());
 
         Response loginResponse = AuthorizationApi.login(login);
@@ -71,10 +64,6 @@ public class OrderTest extends BaseTest {
     @Test
     @DisplayName("Создание заказа без ингредиентов")
     public void orderWithoutIngredientsFail(){
-
-                testUser = new User("testUser_" + System.currentTimeMillis() + "@example.com", "password123", "Ivan");
-
-                ApiUser.createUser(testUser);
                 Login login = new Login(testUser.getEmail(), testUser.getPassword());
 
                 Response loginResponse = AuthorizationApi.login(login);
@@ -91,9 +80,6 @@ public class OrderTest extends BaseTest {
     @Test
     @DisplayName("Создание заказа с неверным хешем")
     public void orderWithInvalidIngredientsHashFail(){
-        testUser = new User("testUser_" + System.currentTimeMillis() + "@example.com", "password123", "Ivan");
-
-        ApiUser.createUser(testUser);
         Login login = new Login(testUser.getEmail(), testUser.getPassword());
 
         Response loginResponse = AuthorizationApi.login(login);

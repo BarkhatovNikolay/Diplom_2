@@ -1,4 +1,4 @@
-package com.burgers.API;
+package com.burgers.api;
 import com.burgers.model.Order;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
