@@ -25,10 +25,11 @@
 - **Lombok**: 1.18.28
 - **JavaFaker**: 1.0.2
 
-## Запуск тестов
-```bash
+# Запуск тестов + генерация Allure-отчёта
 mvn clean test
+mvn allure:report
 
-## Отчет Allure
-```bash
+# Открыть отчёт в браузере
 mvn allure:serve
+
+
